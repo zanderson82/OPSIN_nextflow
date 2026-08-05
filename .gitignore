@@ -3,3 +3,4 @@ work/
 .nextflow
 .nextflow.log*
 bin/dipcall.kit
+resources/hifiasm/
