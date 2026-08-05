@@ -1,0 +1,5 @@
+assembly_and_annotation_outputs/*
+work/
+.nextflow
+.nextflow.log*
+bin/dipcall.kit

@@ -1,0 +1,6 @@
+name: samtools-1.22
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - samtools=1.22
