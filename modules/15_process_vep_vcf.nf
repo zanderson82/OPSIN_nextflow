@@ -1,6 +1,6 @@
 process process_vep_vcf {
-    publishDir "${params.output_dir}", mode: 'copy'
     tag "${sample_id}-${sex}-${hap_name}-${type}-${contig}-${gene_rank}"
+    publishDir "${params.intermediate_outputs_dir}", mode: 'copy'
     label "process_vep_vcf"
 
 
@@ -14,7 +14,7 @@ process process_vep_vcf {
     script:
 
     """
-    opsin_vep_snp_analysis_target_codons.py" \
+    opsin_vep_snp_analysis_target_codons.py \
     "${vep114_raw_vcf}" \
     "${gene_ref}" \
     "${sample_id}-${sex}-${hap_name}-${gene_rank}-${type}-${contig}-${gene_ref}.vep_SNP_analysis.tsv"

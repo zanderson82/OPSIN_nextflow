@@ -1,6 +1,6 @@
 process run_dipcall {
     tag "${sample_id}-${sex}-${hap_name}-${type}-${gene_rank}"
-    publishDir "${params.output_dir}", mode: 'copy'
+    publishDir "${params.intermediate_outputs_dir}", mode: 'copy'
     label "run_dipcall"
 
     input:

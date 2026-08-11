@@ -1,7 +1,6 @@
 process add_alignment_stats {
 
     tag "${sample_id}-${sex}-${params.region_name}-${hap_name}"
-    publishDir "${params.output_dir}", mode: 'copy'
     label "add_alignment_stats"
 
     input:

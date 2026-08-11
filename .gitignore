@@ -4,3 +4,6 @@ work/
 .nextflow.log*
 bin/dipcall.kit
 resources/hifiasm/
+intermediate_outputs/
+*outputs/
+resources/sample_file.tsv

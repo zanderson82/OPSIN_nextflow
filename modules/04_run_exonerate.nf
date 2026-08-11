@@ -1,7 +1,7 @@
 process run_exonerate {
 
     tag "${sample_id}-${sex}-${params.region_name}-${hap_name}"
-    publishDir "${params.output_dir}", mode: 'copy'
+    publishDir "${params.intermediate_outputs_dir}", mode: 'copy'
     label "run_exonerate"
 
 

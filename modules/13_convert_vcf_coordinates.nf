@@ -1,6 +1,5 @@
 process convert_vcf_coordinates {
     tag "${sample_id}-${sex}-${hap_name}-${type}-${gene_rank}"
-    publishDir "${params.output_dir}", mode: 'copy'
     label "convert_vcf_coordinates"
 
 
@@ -13,7 +12,7 @@ process convert_vcf_coordinates {
 
     script:
     """
-    convert-opsin-vcf-coordinates.py" "${sample_id}" "${hap_name}" "${sex}" "${gene_rank}" "${type}" "${contig}" "${dipcall_pair_vcf}" "${sample_id}-${sex}-${hap_name}-${gene_rank}-${type}-${contig}_converted.vcf"
+    convert-opsin-vcf-coordinates.py "${sample_id}" "${hap_name}" "${sex}" "${gene_rank}" "${type}" "${contig}" "${dipcall_pair_vcf}" "${sample_id}-${sex}-${hap_name}-${gene_rank}-${type}-${contig}_converted.vcf"
     """
 
 }

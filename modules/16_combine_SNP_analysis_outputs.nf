@@ -12,7 +12,7 @@ process combine_SNP_analysis {
 
     script:
     """
-    combine_SNP_analysis2.py" \
+    combine_SNP_analysis2.py \
     "${params.final_output_name}_combined_SNP_analysis.tsv" \
     ${tsvs}
     """

@@ -1,7 +1,7 @@
 process align_to_assembly {
 
     tag "${sample_id}-${sex}-${params.region_name}"
-    publishDir "${params.output_dir}", mode: 'copy'
+    publishDir "${params.intermediate_outputs_dir}", mode: 'copy'
     label "align_to_assembly"
 
     input:

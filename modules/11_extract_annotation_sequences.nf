@@ -1,6 +1,5 @@
 process extract_annotation_sequences {
     tag "${sample_id}-${sex}-${hap_name}-${type}-${gene_rank}"
-    publishDir "${params.output_dir}", mode: 'copy'
     label "extract_annotation_sequences"
 
     input:

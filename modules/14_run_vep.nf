@@ -1,6 +1,5 @@
 process run_vep{
     tag "${sample_id}-${sex}-${hap_name}-${type}-${gene_rank}"
-    publishDir "${params.output_dir}", mode: 'copy'
     label "run_vep"
 
 
@@ -40,7 +39,7 @@ process run_vep{
 
     vep -i "${converted_dipcall_vcf}" \
         --force_overwrite --vcf --buffer_size 50000 --species homo_sapiens \
-        --fork ${task.cpus} -o ${output_vcf} --cache --offline --dir_cache ${params.cache_directory} --canonical \
+        --fork ${task.cpus} -o "\${output_vcf}" --cache --offline --dir_cache ${params.cache_directory} --canonical \
         --symbol --numbers --assembly GRCh38 --use_given_ref --pick_allele_gene --pick_order biotype,rank,mane_select,mane_plus_clinical --domains --pubmed --gene_phenotype \
         --sift b --polyphen b --regulatory --total_length --af --max_af --af_1kg --custom_multi_allelic \
         --fasta ${params.OPN1MW_reference} --hgvsg --hgvs --hgvsp_use_prediction --dir_plugins ${params.plugin_dir} --plugin SpliceVault,file=${params.SPLICEVAULT} \

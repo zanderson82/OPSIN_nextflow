@@ -12,7 +12,7 @@ process analyze_haplotype {
 
     script:
     """
-    python_opsin_processing_V6.py" \
+    python_opsin_processing_V6.py \
         "${stats_gff}" \
         "${sample_id}" \
         "${sex}" \

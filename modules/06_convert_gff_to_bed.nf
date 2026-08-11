@@ -1,7 +1,6 @@
 process convert_gff_to_bed {
 
     tag "${sample_id}-${sex}-${params.region_name}-${hap_name}"
-    publishDir "${params.output_dir}", mode: 'copy'
     label "convert_gff_to_bed"
 
     input:
@@ -12,7 +11,7 @@ process convert_gff_to_bed {
 
     script:
     """
-    python3 "${projectDir}/bin/gff_to_bed2.py" \
+    gff_to_bed2.py \
         --gff_file "${vulgar_to_gff_output}" \
         --sample_name "${sample_id}" \
         --sex "${sex}" \

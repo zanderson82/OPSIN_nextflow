@@ -42,16 +42,32 @@ workflow {
     samples_ch = Channel
     .fromPath(params.metadata_table)
     .splitCsv(sep: '\t', header: ['sample_id', 'sex'], skip: 2)
-    .map { row -> tuple(row.sample_id.toString(), row.sex.toString()) }
+    .map { row -> tuple(row.sample_id.toString().trim(), row.sex.toString().trim()) }
 
 
 // Channel for finding the input aligned bam file
-// add check exists
+// Resolve globs explicitly to avoid empty/ambiguous file() behavior
     input_bam_ch = samples_ch
         .map { sample_id, sex ->
-            def bam = file("${params.bam_dir}/**/${sample_id}*${params.input_suffix}")
-            def bai = file("${params.bam_dir}/**/${sample_id}*${params.input_suffix}.bai")
-            tuple(sample_id, sex, bam, bai)
+            def bam_pattern = "${params.bam_dir}/*/${sample_id}*${params.input_suffix}"
+            def bai_pattern = "${params.bam_dir}/*/${sample_id}*${params.input_suffix}.bai"
+            def bam_matches = files(bam_pattern)
+            def bai_matches = files(bai_pattern)
+
+            if (!bam_matches || bam_matches.size() == 0) {
+                error "No BAM matched for ${sample_id} (${sex}) with pattern: ${bam_pattern}"
+            }
+            if (!bai_matches || bai_matches.size() == 0) {
+                error "No BAI matched for ${sample_id} (${sex}) with pattern: ${bai_pattern}"
+            }
+            if (bam_matches.size() > 1) {
+                error "Multiple BAM matches for ${sample_id} (${sex}): ${bam_matches}"
+            }
+            if (bai_matches.size() > 1) {
+                error "Multiple BAI matches for ${sample_id} (${sex}): ${bai_matches}"
+            }
+
+            tuple(sample_id, sex, bam_matches[0], bai_matches[0])
         }
 
 
