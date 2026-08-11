@@ -28,8 +28,9 @@ The starting file for this workflow must be an aligned bam file. Note that the r
 
 There are two summary output files:
 1. A summary annotation file that each sample and haplotype is appended to. This file has the following columns: 
+
 |Column name|Contents|
-| ----------- | -------- |
+|-----------|--------|
 |sample_id|Sample identifier from the original metadata file|
 |sex|Sex of the sample (can be XX or XY)|
 |haplotype|hap1 or hap2 for XX and primary for XY samples|
@@ -49,5 +50,5 @@ There are two summary output files:
 |primary_lcr_position|Coordinate of primary LCR annotation on its contig (most helpful if there are multiple LCR annotations)|
 |primary_lcr_ratio|Ratio of mapq0 that map to the LCR annotation site to the total number of reads|
 |primary_lcr_reads|Number of reads that map to the primary LCR annotation site|
-primary_lcr_mapq0|Number of reads that map to the primary LCR annotation site with a mapq score of 0|
+|primary_lcr_mapq0|Number of reads that map to the primary LCR annotation site with a mapq score of 0|
 
