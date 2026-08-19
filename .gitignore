@@ -7,3 +7,5 @@ resources/hifiasm/
 intermediate_outputs/
 *outputs/
 resources/sample_file.tsv
+NSC*
+chm13*

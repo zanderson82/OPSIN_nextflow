@@ -1,5 +1,6 @@
 process run_vep{
     tag "${sample_id}-${sex}-${hap_name}-${type}-${gene_rank}"
+    publishDir "${params.intermediate_outputs_dir}", mode: 'copy'
     label "run_vep"
 
 

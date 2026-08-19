@@ -49,8 +49,9 @@ workflow {
 // Resolve globs explicitly to avoid empty/ambiguous file() behavior
     input_bam_ch = samples_ch
         .map { sample_id, sex ->
-            def bam_pattern = "${params.bam_dir}/*/${sample_id}*${params.input_suffix}"
-            def bai_pattern = "${params.bam_dir}/*/${sample_id}*${params.input_suffix}.bai"
+            def subdir = params.nested_bams ? "*/" : ""
+            def bam_pattern = "${params.bam_dir}/${subdir}${sample_id}*${params.input_suffix}"
+            def bai_pattern = "${bam_pattern}.bai"
             def bam_matches = files(bam_pattern)
             def bai_matches = files(bai_pattern)
 
@@ -160,11 +161,21 @@ workflow {
 
     analyze_haplotype(add_alignment_stats.out.stats_gff)
 
-    analyze_haplotype.out.haplotype_analysis
+
+    
+
+   analyze_haplotype.out.haplotype_analysis
         .map { sample_id, sex, hap_name, tsv -> tsv }
+        .set { new_analysis_tsvs_ch }
+
+    existing_analysis_tsvs = Channel.fromPath("${params.output_dir}/*.analysis.tsv")
+
+    new_analysis_tsvs_ch
+        .mix(existing_analysis_tsvs)
+        .unique { it.name }
         .collect()
         .set { all_tsvs_ch }
-    
+
     concatenate_results(all_tsvs_ch)
 
     // parse gffs from exonerate to take coordinates of first 2 genes
@@ -258,9 +269,16 @@ workflow {
     // processed_vep_tsv
     process_vep_vcf.out.processed_vep_tsv
         .map { sample_id, sex, hap_name, contig, type, gene_rank, gene_ref, processed_vep_tsv -> processed_vep_tsv }
+        .set { new_vep_tsvs_ch }
+
+    existing_vep_tsvs = Channel.fromPath("${params.output_dir}/*.vep_SNP_analysis.tsv")
+    
+    new_vep_tsvs_ch
+        .mix(existing_vep_tsvs)
+        .unique {it.name }
         .collect()
         .set { all_processed_vep_tsvs_ch }
-    
+        
     combine_SNP_analysis(all_processed_vep_tsvs_ch)
 
 }

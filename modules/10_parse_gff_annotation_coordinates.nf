@@ -1,5 +1,6 @@
 process parse_gff {
     tag "${sample_id}-${sex}-${params.region_name}-${hap_name}"
+    publishDir "${params.intermediate_outputs_dir}", mode: 'copy'
     label "parse_gff"
 
     input:

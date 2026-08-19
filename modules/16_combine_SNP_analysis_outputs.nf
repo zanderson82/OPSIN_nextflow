@@ -8,7 +8,7 @@ process combine_SNP_analysis {
 
     output:
     path("${params.final_output_name}_combined_SNP_analysis.tsv"), emit: combined_snp_tsv
-    path("**/*_combined_SNP_analysis.tsv"), emit: per_sample_combined_tsvs
+    path("*_combined_SNP_analysis.tsv"), emit: per_sample_combined_tsvs
 
     script:
     """

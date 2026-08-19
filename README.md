@@ -5,26 +5,33 @@ This repository contains a workflow that resolves the gene copy-number, order, p
 This workflow is written for nextflow version 26
 ```
 nextflow run main.nf \
---bam_dir "$path_to_directory_of_bam_files \
---input_suffix "$input_bam_file_suffix" \
---region_name "$name_or_identifier_for_samples_in_batch"\
---region "$chr-start-end" \
---metadata_table "$list_of_samples" \
---final_output_name "$final_summary_file_name" \
+--bam_dir \  path to directory of bam files
+--input_suffix \  input bam file suffix
+--region_name \  name or identifier for samples in batch
+--region \  coordinates in chr-start-end format 
+--metadata_table \  list of samples
+--output_dir \  publish location for outputs
+--final_output_name \  final summary file name
+--nested_bams \  flag that looks for bams in nested sub-directories ${bam_dir}/*/${sample_id}*${input_suffix} (default is FALSE; to run just add the flag to the nextflow command)
 -resume
 ```
 
+### Note about input bam directory
+- If the bams are nested, use the --nested_bams flag
 ## Dependencies and environments
-All dependencies should be available through conda and or docker
+All dependencies should be available through conda, docker or github
 - samtools - version 1.22 or newer
 - hifiasm
 - minimap2 - version 2.28 or newer
 - exonerate
 - vep - version 115
-- dipcall - version 0.3
+- dipcall - version 0.3 (follow instructions from github)
 
+
+## dipcall edits for usage in workflow:
+- For dipcall to work properly, you must open the dipcall-aux.js file and change line 160 to (min_var_len  = 10000)
 ## Input and output file formats
-The starting file for this workflow must be an aligned bam file. Note that the reference genome will effect the genomic coordinates that you use. 
+The starting file for this workflow must be an aligned bam file. The bam index is also needed. Note that the reference genome will effect the genomic coordinates that you use. 
 
 There are two summary output files:
 1. A summary annotation file that each sample and haplotype is appended to. This file has the following columns: 
@@ -52,3 +59,16 @@ There are two summary output files:
 |primary_lcr_reads|Number of reads that map to the primary LCR annotation site|
 |primary_lcr_mapq0|Number of reads that map to the primary LCR annotation site with a mapq score of 0|
 
+2. A summary SNV file where each sample, haplotype and first two annotated genes are appended to. This file will be named using the final output name and will end in "combined_SNP_analysis.tsv".
+
+|Column name|Contents|
+|-----------|--------|
+|sample|Sample identifier from the original metadata file|
+|sex|Sex of the sample (can be XX or XY)|
+|haplotype|hap1 or hap2 for XX and primary for XY samples|
+|gene_rank|The order of first two genes annotated (gene1 or gene2)|
+|gene_ref|The reference gene that the annotated gene has its variants called against (gene1 -> OPN1LW gene2 -> OPN1MW)|
+|gene_annotation|The gene that was annotated in the contig (OPN1LW_exon5 or OPN1LW_exon5) This will tell you if you have an L or M annotation in the first or second position|
+|Codons 65-309|These columns will have the reference nucleotides for the codon in the gene_ref. If there are no variants, all letters are capitalized (AGA). If there is a variant then the capitalized letter will be the variant (AGA -> agG with A->G being the variant)|
+|AA|This is the translation of all the amino acids from the codon list|
+|exon3_combo|Combination of codons 153, 171, 174, 178, and 180 in exon 3|

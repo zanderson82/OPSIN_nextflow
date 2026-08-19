@@ -13,7 +13,7 @@ process run_dipcall {
     script:
     """
     samtools faidx "${gene_reference}"
-    run-dipcall -t ${task.cpus} -m "${sample_id}-${sex}-${hap_name}-${gene_rank}-${type}-${contig}" \
+    ${projectDir}/bin/dipcall.kit/run-dipcall -t ${task.cpus} -m "${sample_id}-${sex}-${hap_name}-${gene_rank}-${type}-${contig}" \
         "${gene_reference}" "${extracted_fasta}" "${extracted_fasta}" > "${sample_id}-${sex}-${hap_name}-${gene_rank}-${type}-${contig}.mak"
 
         make -j8 -f "${sample_id}-${sex}-${hap_name}-${gene_rank}-${type}-${contig}.mak"

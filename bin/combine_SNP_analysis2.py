@@ -47,9 +47,7 @@ def combine(output_file, files):
 
         # Per-sample combined file grouped under output directory.
         output_dir = os.path.dirname(output_file) or '.'
-        per_sample_dir = os.path.join(output_dir, sample_id, sex)
-        os.makedirs(per_sample_dir, exist_ok=True)
-        per_sample_file = os.path.join(per_sample_dir, f'{sample_id}_{sex}_combined_SNP_analysis.tsv')
+        per_sample_file = os.path.join(output_dir, f'{sample_id}_{sex}_combined_SNP_analysis.tsv')
         with open(per_sample_file, 'w') as out:
             out.write(header + '\n')
             out.write('\n'.join(rows) + '\n')
@@ -62,7 +60,7 @@ def combine(output_file, files):
         out.write('\n'.join(all_data_rows) + '\n')
 
     print(f"Combined {len(files)} files -> {output_file}")
-    print("Per-sample files written to <output_dir>/<sample>/<sex>/<sample>_<sex>_combined_SNP_analysis.tsv")
+    print("Per-sample files written to <output_dir>/<sample>_<sex>_combined_SNP_analysis.tsv")
 
 
 if len(sys.argv) < 3:
