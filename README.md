@@ -143,7 +143,36 @@ nextflow run main.nf \
 -resume
 ```
 
+## Running on ongoing projects
+For ongoing projects, run with the same output dir and final output name to have new samples append to the final summary files. 
 
+For NSC0276_CVDCarriers, run with :
+```
+nextflow run main.nf \
+--bam_dir /n/alignments/NSC0276_CVDCarriers \
+--input_suffix 'CHM13*null-5mCG_5hmCG*.phased.bam' \
+--region_name CHM13_NSC0276_CVDCarriers \
+--region chrX:151389254-153479422 \
+--metadata_table resources/sample_file.tsv \
+--output_dir NSC0276_CVDCarriers_CHM13_samples_nested_bam_testing \
+--final_output_name NSC0276_CVDCarriers \
+--nested_bams \
+-resume
+```
+For NSC0268_Maureen, run with:
+```
+nextflow run main.nf \
+--bam_dir /n/alignments/NSC0268_Maureen \
+--input_suffix 'CHM13*null-5mCG_5hmCG*.phased.bam' \
+--region_name chm13_NSC0268_Maureen_samples \
+--region chrX:151389254-153479422 \
+--metadata_table resources/sample_file.tsv \
+--output_dir NSC0268_Maureen_CHM13_samples \
+--final_output_name NSC0268_Maureen_outputs \
+--nested_bams \
+-resume
+
+```
 ### Reference genome specific coordinates:
 If your starting input bam file has been aligned to the GRChg38 reference genome, then you will use chrX:153121316-155216212 as your coordinates.
 
